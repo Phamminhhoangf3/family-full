@@ -2,7 +2,7 @@
 const Joi = require('joi')
 const { StatusCodes } = require('http-status-codes')
 const ApiError = require('../utils/ApiError')
-const { TAG_USER, TYPE_MEMBER, GENDER_MEMBER } = require('../utils/constants')
+const { TAG_USER, GENDER_MEMBER } = require('../utils/constants')
 const { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } = require('../utils/validators')
 const moment = require('moment')
 const dateFormat = 'YYYY-MM-DD'
@@ -14,7 +14,6 @@ const correctCondition = Joi.object({
     .strict()
     .default(''),
   gender: Joi.string().required().valid(GENDER_MEMBER.FEMALE, GENDER_MEMBER.MALE).trim().strict(),
-  type: Joi.string().required().valid(TYPE_MEMBER.CHILDREN, TYPE_MEMBER.FAMILY).trim().strict(),
   name: Joi.string().required().min(2).max(25).trim().strict(),
   image: Joi.string().required().trim().strict(),
   fromDob: Joi.string().custom((value, helpers) => {

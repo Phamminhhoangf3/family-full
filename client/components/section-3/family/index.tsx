@@ -18,7 +18,7 @@ const Family = ({ data, handleChildren, index }: FamilyType) => {
       }
     >
       <div className="container">
-        <Parent data={data} handleChildren={handleChildren} />
+        <Parent data={data} />
         <Childrens data={data?.children} handleChildren={handleChildren} />
       </div>
     </li>

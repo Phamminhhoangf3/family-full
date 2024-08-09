@@ -3,10 +3,9 @@ import MemberCard from "../../member";
 
 type ParentType = {
   data: FamilyDto;
-  handleChildren: (data: any) => void;
 };
 
-const Parent = ({ data, handleChildren }: ParentType) => {
+const Parent = ({ data }: ParentType) => {
   const renderClass = (family: FamilyDto) => {
     let result = ["sticky"];
     if (family?.husband && family?.wife) result.push("line");
@@ -20,29 +19,18 @@ const Parent = ({ data, handleChildren }: ParentType) => {
         <MemberCard
           data={data}
           title={!!data?.husband ? "husband" : "wife"}
-          handleChildren={handleChildren}
           selected
-          hiddenBtnAdd
+          isFamily
         />
       </div>
       {!!data?.wife && !!data?.husband && (
         <div className="sticky">
-          <MemberCard
-            data={data}
-            title="wife"
-            handleChildren={handleChildren}
-            hiddenBtnAdd
-          />
+          <MemberCard data={data} title="wife" isFamily />
         </div>
       )}
       {!!data?.exWife && (
         <div className="sticky">
-          <MemberCard
-            data={data}
-            title="exWife"
-            handleChildren={handleChildren}
-            hiddenBtnAdd
-          />
+          <MemberCard data={data} title="exWife" isFamily />
         </div>
       )}
     </div>

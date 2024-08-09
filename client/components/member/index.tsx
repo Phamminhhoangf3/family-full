@@ -4,9 +4,9 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 type MemberCardType = {
   title?: "husband" | "wife" | "exWife";
   data: any;
-  handleChildren: (data: any) => void;
+  handleChildren?: (data: any) => void | undefined;
   selected?: boolean;
-  hiddenBtnAdd?: boolean;
+  isFamily?: boolean;
 };
 
 const MemberCard = ({
@@ -14,47 +14,37 @@ const MemberCard = ({
   handleChildren,
   title,
   selected = false,
-  hiddenBtnAdd = false,
+  isFamily = false,
 }: MemberCardType) => {
   return (
     <div className="member-card">
       {((!!title && data?.[title]?.tag) || data?.tag) && (
         <div className="tag">
-          {data?.type === "family" && !!title ? data?.[title]?.tag : data?.tag}
+          {isFamily && !!title ? data?.[title]?.tag : data?.tag}
         </div>
       )}
       <div className="avatar">
         <Image
-          src={
-            data?.type === "family" && title
-              ? data?.[title]?.image
-              : data?.image
-          }
-          alt={
-            data?.type === "family" && title ? data?.[title]?.name : data?.name
-          }
+          src={isFamily && title ? data?.[title]?.image : data?.image}
+          alt={isFamily && title ? data?.[title]?.name : data?.name}
           fill
         />
       </div>
       <div className={"information" + (selected ? " selected" : "")}>
         <div className="full-name">
           <strong>
-            {data?.type === "family" && title
-              ? data?.[title]?.name
-              : data?.name}
+            {isFamily && title ? data?.[title]?.name : data?.name}
           </strong>
         </div>
         <div className="date">
-          {data?.type === "family" && title ? data?.[title]?.date : data?.date}
+          {isFamily && title ? data?.[title]?.date : data?.date}
         </div>
       </div>
-      {!hiddenBtnAdd && (
+      {!!handleChildren && (
         <button
           className="btn-add"
           onClick={() => {
-            handleChildren(
-              data?.type === "children" && Boolean(data) ? data : null
-            );
+            handleChildren(data);
           }}
         >
           <AccountTreeIcon sx={{ color: "rgb(171, 35, 17)" }} />
