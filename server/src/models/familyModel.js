@@ -49,7 +49,8 @@ Family.findOneById = async (id, result) => {
             from: MEMBER_COLLECTION_NAME,
             localField: 'husbandId',
             foreignField: '_id',
-            as: 'husband'
+            as: 'husband',
+            pipeline: [{ $project: { _destroy: 0 } }]
           }
         },
         {
@@ -57,7 +58,8 @@ Family.findOneById = async (id, result) => {
             from: MEMBER_COLLECTION_NAME,
             localField: 'wifeId',
             foreignField: '_id',
-            as: 'wife'
+            as: 'wife',
+            pipeline: [{ $project: { _destroy: 0 } }]
           }
         },
         {
@@ -65,7 +67,8 @@ Family.findOneById = async (id, result) => {
             from: MEMBER_COLLECTION_NAME,
             localField: 'exWifeId',
             foreignField: '_id',
-            as: 'exWife'
+            as: 'exWife',
+            pipeline: [{ $project: { _destroy: 0 } }]
           }
         },
         {
@@ -73,7 +76,8 @@ Family.findOneById = async (id, result) => {
             from: MEMBER_COLLECTION_NAME,
             localField: 'childrenIds',
             foreignField: '_id',
-            as: 'children'
+            as: 'children',
+            pipeline: [{ $project: { _destroy: 0 } }]
           }
         },
         { $project: { _destroy: 0, husbandId: 0, wifeId: 0, exWifeId: 0, childrenIds: 0 } }
