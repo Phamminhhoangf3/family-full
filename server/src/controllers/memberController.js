@@ -47,17 +47,17 @@ exports.createNew = async (req, res, next) => {
       })
     }
     const member = new Member({
-      tag: req.body.tag,
       title: req.body.title,
-      type: req.body.type,
       name: req.body.name,
       fromDob: req.body.fromDob,
       toDob: req.body.toDob,
       familyId: req.body.familyId,
       dad: req.body.dad,
-      image: req.body.image
+      image: req.body.image,
+      gender: req.body.gender
     })
     const memberValid = await validationBeforeCreate(member)
+    console.log('🚀 ~ exports.createNew= ~ memberValid:', memberValid)
     if (!memberValid) {
       res.status(StatusCodes.BAD_REQUEST).send({
         message: 'Member invalid!'

@@ -11,15 +11,14 @@ const findOneById = async id =>
     .findOne({ _id: new ObjectId(id) })
 
 const Member = function (member) {
-  this.tag = member.tag
   this.title = member.title
-  this.type = member.type
   this.name = member.name
   this.fromDob = member.fromDob
   this.toDob = member.toDob
   this.familyId = member.familyId
   this.dad = member.dad
   this.image = member.image
+  this.gender = member.gender
 }
 
 Member.create = async (newMember, result) => {
