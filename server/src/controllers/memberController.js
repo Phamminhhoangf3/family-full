@@ -57,7 +57,6 @@ exports.createNew = async (req, res, next) => {
       gender: req.body.gender
     })
     const memberValid = await validationBeforeCreate(member)
-    console.log('🚀 ~ exports.createNew= ~ memberValid:', memberValid)
     if (!memberValid) {
       res.status(StatusCodes.BAD_REQUEST).send({
         message: 'Member invalid!'
