@@ -25,8 +25,9 @@ const ContentMenu = ({
       setValue("name", memberSelected?.name);
       setValue("date", memberSelected?.date);
       setValue("image", memberSelected?.image);
-      setValue("id", memberSelected?.id);
+      setValue("_id", memberSelected?._id);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memberSelected]);
 
   return (
@@ -35,7 +36,7 @@ const ContentMenu = ({
         <input
           type="text"
           className="input-hidden"
-          {...register("id", { required: true })}
+          {...register("_id", { required: true })}
         />
         <label htmlFor="name">Họ và tên</label>
         <input

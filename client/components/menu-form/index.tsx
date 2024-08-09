@@ -1,7 +1,6 @@
 import { ChildrenDto } from "@/types/member";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
-import { useState } from "react";
 
 const MenuForm = ({
   data,
@@ -17,8 +16,8 @@ const MenuForm = ({
     return members.map((item) => {
       return (
         <TreeItem
-          key={item?.id}
-          itemId={item?.id?.toString()}
+          key={item?._id}
+          itemId={item?._id?.toString()}
           label={`${item?.name} ${item?.date}`}
           onClick={() => {
             onSelectMember(item);

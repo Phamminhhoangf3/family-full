@@ -45,7 +45,7 @@ export default function FormPage() {
     list: ChildrenDto[]
   ): ChildrenDto[] => {
     return list?.map((item: ChildrenDto) => {
-      if (item?.id === data?.id) {
+      if (item?._id === data?._id) {
         const family: FamilyDto =
           item?.title === "husband"
             ? {
@@ -93,7 +93,7 @@ export default function FormPage() {
     try {
       const listMemberUpdate = handleUpdateData(values, data);
       const memberUpdate = listMemberUpdate?.find(
-        (item: ChildrenDto) => item?.id === memberSelected?.idRoot
+        (item: ChildrenDto) => item?._id === memberSelected?.idRoot
       );
 
       if (!memberUpdate) {
