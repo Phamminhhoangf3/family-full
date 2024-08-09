@@ -9,6 +9,6 @@ export const api = axios.create({
 });
 
 export const getDetailFamily = async (params: DetailFamilyType) => {
-  const response = await api.post("families/detail", params);
+  const response = await api.get(`families/detail/${params?.id}`);
   return response.data;
 };

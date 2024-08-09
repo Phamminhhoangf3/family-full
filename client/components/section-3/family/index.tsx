@@ -1,4 +1,4 @@
-import { ChildrenDto, FamilyDto } from "@/types/member";
+import { FamilyDto } from "@/types/member";
 import Parent from "./parent";
 import Childrens from "./childrens";
 
@@ -19,7 +19,7 @@ const Family = ({ data, handleChildren, index }: FamilyType) => {
     >
       <div className="container">
         <Parent data={data} handleChildren={handleChildren} />
-        <Childrens data={data} handleChildren={handleChildren} />
+        <Childrens data={data?.children} handleChildren={handleChildren} />
       </div>
     </li>
   );

@@ -6,6 +6,11 @@ const TAG_USER = {
   EMPTY: ''
 }
 
+const GENDER_MEMBER = {
+  MALE: 'male',
+  FEMALE: 'female'
+}
+
 const TYPE_MEMBER = {
   CHILDREN: 'children',
   FAMILY: 'family'
@@ -17,5 +22,6 @@ const WHITELIST_DOMAINS = []
 module.exports = {
   TAG_USER,
   TYPE_MEMBER,
-  WHITELIST_DOMAINS
+  WHITELIST_DOMAINS,
+  GENDER_MEMBER
 }

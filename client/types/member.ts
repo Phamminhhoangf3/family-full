@@ -13,7 +13,7 @@ export type WifeType = {
 };
 
 export interface ChildrenDto {
-  id: string;
+  _id: string;
   tag: string;
   type: string;
   title: string;
@@ -25,7 +25,7 @@ export interface ChildrenDto {
 }
 
 export interface FamilyDto {
-  id: string;
+  _id: string;
   type: string;
   husband: ChildrenDto;
   wife: ChildrenDto;

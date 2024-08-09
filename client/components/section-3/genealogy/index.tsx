@@ -1,17 +1,12 @@
-import { ChildrenDto, FamilyDto } from "@/types/member";
+import { FamilyDto } from "@/types/member";
 import { useEffect, useState } from "react";
 import Family from "../family";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getDetailFamily } from "@/apis";
-
-type GenealogyType = {
-  data: FamilyDto[];
-  handleAppendFamily: (data: ChildrenDto) => void;
-};
 
 const Genealogy = () => {
   const [state, setState] = useState<FamilyDto[]>([]);
-  const [request, setRequest] = useState({ id: "66b49cc1d254d4c584172330" });
+  const [familyId, setFamilyId] = useState("66b49cc1d254d4c584172330");
 
   const { mutate } = useMutation({
     mutationFn: async (params: any) => await getDetailFamily(params),
@@ -21,12 +16,13 @@ const Genealogy = () => {
   });
 
   const handleAppendFamily = (data: any) => {
+    if (data?.familyId !== familyId && data.familyId) setFamilyId(data?.familyId);
   };
 
   useEffect(() => {
-    if (request?.id) mutate(request);
+    if (familyId) mutate({ id: familyId });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [request]);
+  }, [familyId]);
 
   return (
     <div>

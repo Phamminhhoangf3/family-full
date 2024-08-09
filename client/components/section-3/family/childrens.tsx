@@ -3,14 +3,12 @@ import MemberCard from "../../member";
 import { groupByThree } from "@/utils";
 
 type ChildrenType = {
-  data: FamilyDto;
+  data: ChildrenDto[];
   handleChildren: (data: any) => void;
 };
 
 const Childrens = ({ data, handleChildren }: ChildrenType) => {
-  const groupChildren = !!data?.children?.length
-    ? groupByThree(data?.children)
-    : [];
+  const groupChildren = !!data?.length ? groupByThree(data) : [];
 
   return (
     <>
@@ -19,7 +17,10 @@ const Childrens = ({ data, handleChildren }: ChildrenType) => {
           <div className="row">
             {!!listChildren?.length &&
               listChildren.map((child, i) => (
-                <li className={i === 0 ? "first" : "not-first"} key={child?.id}>
+                <li
+                  className={i === 0 ? "first" : "not-first"}
+                  key={child?._id}
+                >
                   <div className={"sticky children" + (i == 0 ? " next" : "")}>
                     <MemberCard data={child} handleChildren={handleChildren} />
                   </div>

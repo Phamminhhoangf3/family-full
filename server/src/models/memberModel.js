@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb')
 const { GET_DB } = require('../config/mongodb')
 const moment = require('moment')
+const { GENDER_MEMBER } = require('../utils/constants')
 
 const MEMBER_COLLECTION_NAME = 'members'
 
@@ -65,6 +66,30 @@ Member.findOneById = async (id, result) => {
   } catch (error) {
     result(error, null)
   }
+}
+
+Member.convertToHusband = member => {
+  if (!member) return null
+  return { ...member, tag: 'husband' }
+}
+
+Member.convertToWife = member => {
+  if (!member) return null
+  return { ...member, tag: 'wife' }
+}
+
+Member.convertToExWife = member => {
+  if (!member) return null
+  return { ...member, tag: 'ex-wife' }
+}
+Member.convertToChild = members => {
+  if (!members || !members?.length) return []
+  return members.map(member => {
+    const newMember = { ...member }
+    if (newMember.gender === GENDER_MEMBER.FEMALE) newMember.tag = 'daugther'
+    if (newMember.gender === GENDER_MEMBER.MALE) newMember.tag = 'son'
+    return newMember
+  })
 }
 
 module.exports = { Member, MEMBER_COLLECTION_NAME }

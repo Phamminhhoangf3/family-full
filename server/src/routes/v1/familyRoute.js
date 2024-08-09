@@ -10,7 +10,7 @@ module.exports = app => {
     res.status(StatusCodes.OK).json({ message: 'Status API families' })
   })
   Router.post('/create', familyValidation.createNew, familyController.createNew)
-  Router.post('/detail', familyController.getDetail)
+  Router.get('/detail/:id', familyController.getDetail)
 
   app.use('/api/families', Router)
 }

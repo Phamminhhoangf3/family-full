@@ -1,17 +1,21 @@
 import Image from "next/image";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
+type MemberCardType = {
+  title?: "husband" | "wife" | "exWife";
+  data: any;
+  handleChildren: (data: any) => void;
+  selected?: boolean;
+  hiddenBtnAdd?: boolean;
+};
+
 const MemberCard = ({
   data,
   handleChildren,
   title,
   selected = false,
-}: {
-  title?: "husband" | "wife" | "exWife";
-  data: any;
-  handleChildren: (data: any) => void;
-  selected?: boolean;
-}) => {
+  hiddenBtnAdd = false,
+}: MemberCardType) => {
   return (
     <div className="member-card">
       {((!!title && data?.[title]?.tag) || data?.tag) && (
@@ -44,16 +48,18 @@ const MemberCard = ({
           {data?.type === "family" && title ? data?.[title]?.date : data?.date}
         </div>
       </div>
-      <button
-        className="btn-add"
-        onClick={() => {          
-          handleChildren(
-            data?.type === "children" && Boolean(data) ? data : null
-          );
-        }}
-      >
-        <AccountTreeIcon sx={{ color: "rgb(171, 35, 17)" }} />
-      </button>
+      {!hiddenBtnAdd && (
+        <button
+          className="btn-add"
+          onClick={() => {
+            handleChildren(
+              data?.type === "children" && Boolean(data) ? data : null
+            );
+          }}
+        >
+          <AccountTreeIcon sx={{ color: "rgb(171, 35, 17)" }} />
+        </button>
+      )}
     </div>
   );
 };

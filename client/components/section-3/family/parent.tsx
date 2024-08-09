@@ -1,13 +1,12 @@
-import { ChildrenDto, FamilyDto } from "@/types/member";
+import { FamilyDto } from "@/types/member";
 import MemberCard from "../../member";
 
-const Parent = ({
-  data,
-  handleChildren,
-}: {
+type ParentType = {
   data: FamilyDto;
   handleChildren: (data: any) => void;
-}) => {
+};
+
+const Parent = ({ data, handleChildren }: ParentType) => {
   const renderClass = (family: FamilyDto) => {
     let result = ["sticky"];
     if (family?.husband && family?.wife) result.push("line");
@@ -23,6 +22,7 @@ const Parent = ({
           title={!!data?.husband ? "husband" : "wife"}
           handleChildren={handleChildren}
           selected
+          hiddenBtnAdd
         />
       </div>
       {!!data?.wife && !!data?.husband && (
@@ -31,6 +31,7 @@ const Parent = ({
             data={data}
             title="wife"
             handleChildren={handleChildren}
+            hiddenBtnAdd
           />
         </div>
       )}
@@ -40,6 +41,7 @@ const Parent = ({
             data={data}
             title="exWife"
             handleChildren={handleChildren}
+            hiddenBtnAdd
           />
         </div>
       )}

@@ -3,6 +3,7 @@ const { StatusCodes } = require('http-status-codes')
 const { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } = require('../utils/validators')
 const Joi = require('joi')
 const Family = require('../models/familyModel')
+const { Member } = require('../models/memberModel')
 
 const FAMILY_COLLECTION_SCHEMA = Joi.object({
   type: Joi.string().trim().strict().default('family'),
@@ -56,21 +57,24 @@ exports.createNew = async (req, res, next) => {
 
 exports.getDetail = async (req, res, next) => {
   try {
-    if (!req.body?.id) {
+    if (!req.params?.id) {
       res.status(400).send({
         message: 'Content can not be empty!'
       })
     }
-    Family.findOneById(req.body.id, (error, data) => {
+    Family.findOneById(req.params?.id, (error, data) => {
       if (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
           message: error.message || 'Some error occurred while creating the family!'
         })
       } else {
-        const dataMap = { ...data?.[0] }
-        if (dataMap?.husband?.length) dataMap.husband = dataMap.husband[0]
-        if (dataMap?.wife?.length) dataMap.wife = dataMap.wife[0]
-        if (dataMap?.exWife?.length) dataMap.exWife = dataMap.exWife[0]
+        const dataMap = {
+          ...data?.[0]
+        }
+        dataMap.husband = Member.convertToHusband(dataMap.husband[0])
+        dataMap.wife = Member.convertToWife(dataMap.wife[0])
+        dataMap.exWife = Member.convertToExWife(dataMap.exWife[0])
+        dataMap.children = Member.convertToChild(dataMap.children)
         res.status(StatusCodes.OK).json(dataMap)
       }
     })

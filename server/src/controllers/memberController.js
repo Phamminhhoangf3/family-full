@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const { StatusCodes } = require('http-status-codes')
-const { TAG_USER, TYPE_MEMBER } = require('../utils/constants')
+const { TAG_USER, TYPE_MEMBER, GENDER_MEMBER } = require('../utils/constants')
 const { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } = require('../utils/validators')
 const { Member } = require('../models/memberModel.js')
 const Joi = require('joi')
@@ -8,16 +8,12 @@ const moment = require('moment')
 const dateFormat = 'YYYY-MM-DD'
 
 const USER_COLLECTION_SCHEMA = Joi.object({
-  tag: Joi.string()
-    .required()
-    .valid(TAG_USER.DAUGHTER, TAG_USER.EMPTY, TAG_USER.HUSBAND, TAG_USER.SON, TAG_USER.WIFE)
-    .trim()
-    .strict(),
   title: Joi.string()
     .valid(TAG_USER.DAUGHTER, TAG_USER.EMPTY, TAG_USER.HUSBAND, TAG_USER.SON, TAG_USER.WIFE)
     .trim()
     .strict()
     .default(''),
+  gender: Joi.string().required().valid(GENDER_MEMBER.FEMALE, GENDER_MEMBER.MALE).trim().strict(),
   type: Joi.string().required().valid(TYPE_MEMBER.CHILDREN, TYPE_MEMBER.FAMILY).trim().strict(),
   name: Joi.string().required().min(2).max(25).trim().strict(),
   image: Joi.string().required().trim().strict(),
