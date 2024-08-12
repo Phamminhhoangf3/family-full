@@ -6,8 +6,11 @@ import { getDetailFamily } from "@/apis";
 
 const Genealogy = () => {
   const [state, setState] = useState<FamilyDto[]>([]);
-  const [familyId, setFamilyId] = useState("66b49cc1d254d4c584172330");
-
+  const [memberAppend, setMemberAppend] = useState({
+    familyId: "66b49cc1d254d4c584172330",
+    dadId: "",
+  });
+  const { familyId, dadId } = memberAppend;
   const { mutate } = useMutation({
     mutationFn: async (params: any) => await getDetailFamily(params),
     onSuccess: (data) => {
@@ -16,7 +19,13 @@ const Genealogy = () => {
   });
 
   const handleAppendFamily = (data: any) => {
-    if (data?.familyId !== familyId && data.familyId) setFamilyId(data?.familyId);
+    if (!data.familyId) return;
+    if (data?.dadId === dadId && state.length > 2) {
+      setState([...state.slice(0, -1)]);
+    }
+    if (data?.familyId !== familyId) {
+      setMemberAppend({ familyId: data?.familyId, dadId: data?.dadId });
+    }
   };
 
   useEffect(() => {

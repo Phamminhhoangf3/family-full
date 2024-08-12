@@ -74,7 +74,9 @@ exports.getDetail = async (req, res, next) => {
         dataMap.husband = Member.convertToHusband(dataMap.husband[0])
         dataMap.wife = Member.convertToWife(dataMap.wife[0])
         dataMap.exWife = Member.convertToExWife(dataMap.exWife[0])
-        dataMap.children = Member.convertToChild(dataMap.children)
+        dataMap.children = Member.convertToChild(
+          dataMap.children.map(child => ({ ...child, dadId: dataMap.husband?._id }))
+        )
         res.status(StatusCodes.OK).json(dataMap)
       }
     })
