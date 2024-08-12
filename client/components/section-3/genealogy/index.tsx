@@ -20,7 +20,7 @@ const Genealogy = () => {
 
   const handleAppendFamily = (data: any) => {
     if (!data.familyId) return;
-    if (data?.dadId === dadId && state.length > 2) {
+    if (data?.dadId === dadId) {
       setState([...state.slice(0, -1)]);
     }
     if (data?.familyId !== familyId) {
