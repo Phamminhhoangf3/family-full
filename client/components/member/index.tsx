@@ -23,7 +23,7 @@ const MemberCard = ({
       if (selectedValue?.fromDob)
         textDob += dayjs(selectedValue?.fromDob).format("YYYY");
       if (selectedValue?.toDob)
-        textDob += ` - ${dayjs(selectedValue?.fromDob).format("YYYY")}`;
+        textDob += ` - ${dayjs(selectedValue?.toDob).format("YYYY")}`;
       return textDob;
     }
     return selectedValue?.[field];
