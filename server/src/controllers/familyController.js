@@ -84,3 +84,24 @@ exports.getDetail = async (req, res, next) => {
     next(error)
   }
 }
+
+exports.getList = async (req, res, next) => {
+  try {
+    const listId = req.body?.ids
+    if (!listId) {
+      res.status(400).send({
+        message: 'Content can not be empty!'
+      })
+    }
+    Family.findListByIds(listId, (error, data) => {
+      if (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          message: error.message || 'Some error occurred while get list family!'
+        })
+      }
+      res.status(StatusCodes.CREATED).json(data)
+    })
+  } catch (error) {
+    next(error)
+  }
+}
