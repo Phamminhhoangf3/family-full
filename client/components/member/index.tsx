@@ -1,12 +1,12 @@
 import Image from "next/image";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import dayjs from "dayjs";
 
 type MemberCardType = {
-  title?: "husband" | "wife" | "exWife";
+  title?: "husband" | "wife" | "exWife"; // nếu có title là family, ngược lại là children
   data: any;
   handleChildren?: (data: any) => void | undefined;
   selected?: boolean;
-  isFamily?: boolean;
 };
 
 const MemberCard = ({
@@ -14,31 +14,34 @@ const MemberCard = ({
   handleChildren,
   title,
   selected = false,
-  isFamily = false,
 }: MemberCardType) => {
+  const renderTextWithField = (field: "tag" | "image" | "name" | "dob") => {
+    if (!data) return null;
+    const selectedValue = !!title ? data?.[title] : data;
+    if (field === "dob")
+      return `(${dayjs(selectedValue?.fromDob).format("YYYY")} - ${dayjs(
+        selectedValue?.toDob
+      ).format("YYYY")})`;
+    return selectedValue?.[field];
+  };
+
   return (
     <div className="member-card">
       {((!!title && data?.[title]?.tag) || data?.tag) && (
-        <div className="tag">
-          {isFamily && !!title ? data?.[title]?.tag : data?.tag}
-        </div>
+        <div className="tag">{renderTextWithField("tag")}</div>
       )}
       <div className="avatar">
         <Image
-          src={isFamily && title ? data?.[title]?.image : data?.image}
-          alt={isFamily && title ? data?.[title]?.name : data?.name}
+          src={renderTextWithField("image")}
+          alt={renderTextWithField("name")}
           fill
         />
       </div>
       <div className={"information" + (selected ? " selected" : "")}>
         <div className="full-name">
-          <strong>
-            {isFamily && title ? data?.[title]?.name : data?.name}
-          </strong>
+          <strong>{renderTextWithField("name")}</strong>
         </div>
-        <div className="date">
-          {isFamily && title ? data?.[title]?.date : data?.date}
-        </div>
+        <div className="date">{renderTextWithField("dob")}</div>
       </div>
       {!!handleChildren && (
         <button

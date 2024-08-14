@@ -16,21 +16,16 @@ const Parent = ({ data }: ParentType) => {
   return (
     <div className="row">
       <div className={renderClass(data)}>
-        <MemberCard
-          data={data}
-          title={!!data?.husband ? "husband" : "wife"}
-          selected
-          isFamily
-        />
+        <MemberCard data={data} title="husband" selected />
       </div>
       {!!data?.wife && !!data?.husband && (
         <div className="sticky">
-          <MemberCard data={data} title="wife" isFamily />
+          <MemberCard data={data} title="wife" />
         </div>
       )}
       {!!data?.exWife && (
         <div className="sticky">
-          <MemberCard data={data} title="exWife" isFamily />
+          <MemberCard data={data} title="exWife" />
         </div>
       )}
     </div>
