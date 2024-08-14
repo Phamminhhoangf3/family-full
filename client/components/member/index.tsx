@@ -47,7 +47,7 @@ const MemberCard = ({
         </div>
         <div className="date">{renderTextWithField("dob")}</div>
       </div>
-      {!!handleChildren && (
+      {!!handleChildren && !!data?.familyId && (
         <button
           className="btn-add"
           onClick={() => {
