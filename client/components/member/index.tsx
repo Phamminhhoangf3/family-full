@@ -18,10 +18,14 @@ const MemberCard = ({
   const renderTextWithField = (field: "tag" | "image" | "name" | "dob") => {
     if (!data) return null;
     const selectedValue = !!title ? data?.[title] : data;
-    if (field === "dob")
-      return `(${dayjs(selectedValue?.fromDob).format("YYYY")} - ${dayjs(
-        selectedValue?.toDob
-      ).format("YYYY")})`;
+    if (field === "dob") {
+      let textDob = "";
+      if (selectedValue?.fromDob)
+        textDob += dayjs(selectedValue?.fromDob).format("YYYY");
+      if (selectedValue?.toDob)
+        textDob += ` - ${dayjs(selectedValue?.fromDob).format("YYYY")}`;
+      return textDob;
+    }
     return selectedValue?.[field];
   };
 
