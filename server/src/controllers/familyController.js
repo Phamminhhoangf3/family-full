@@ -99,7 +99,18 @@ exports.getList = async (req, res, next) => {
           message: error.message || 'Some error occurred while get list family!'
         })
       }
-      res.status(StatusCodes.CREATED).json(data)
+      let result = [...data]
+      if (data?.length) {
+        result.forEach(family => {
+          family.husband = Member.convertToHusband(family.husband[0])
+          family.wife = Member.convertToWife(family.wife[0])
+          family.exWife = Member.convertToExWife(family.exWife[0])
+          family.children = Member.convertToChild(
+            family.children.map(child => ({ ...child, dadId: family.husband?._id }))
+          )
+        })
+      }
+      res.status(StatusCodes.OK).json(result)
     })
   } catch (error) {
     next(error)

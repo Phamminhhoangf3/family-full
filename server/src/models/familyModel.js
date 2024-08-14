@@ -145,7 +145,7 @@ Family.findListByIds = async (ids, result) => {
         }
       ])
       .toArray()
-    result(null, listFamily)
+    result(null, listFamily || [])
   } catch (error) {
     result(error, null)
   }
