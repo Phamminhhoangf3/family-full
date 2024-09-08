@@ -81,12 +81,13 @@ Member.convertToExWife = member => {
   if (!member) return null
   return { ...member, tag: 'ex-wife' }
 }
-Member.convertToChild = members => {
+Member.convertToChild = (members, dad) => {
   if (!members || !members?.length) return []
   return members.map(member => {
     const newMember = { ...member }
     if (newMember.gender === GENDER_MEMBER.FEMALE) newMember.tag = 'daugther'
     if (newMember.gender === GENDER_MEMBER.MALE) newMember.tag = 'son'
+    if (dad) newMember.dad = dad._id
     return newMember
   })
 }

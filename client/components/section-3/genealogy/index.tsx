@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import Family from "../family";
 import { useMutation } from "@tanstack/react-query";
 import { getDetailFamily } from "@/apis";
-
 const Genealogy = () => {
+  const familyIdFirst = process.env.NEXT_PUBLIC_FAMILY_ID_FIRST;
   const [state, setState] = useState<FamilyDto[]>([]);
-  const [familyId, setFamilyId] = useState("66b49cc1d254d4c584172330");
+  const [valueMember, setValueMember] = useState({
+    familyId: familyIdFirst,
+    dad: "",
+  });
+  const { familyId, dad } = valueMember;
 
   const { mutate } = useMutation({
     mutationFn: async (params: any) => await getDetailFamily(params),
@@ -16,7 +20,8 @@ const Genealogy = () => {
   });
 
   const handleAppendFamily = (data: any) => {
-    if (data?.familyId !== familyId && data.familyId) setFamilyId(data?.familyId);
+    if (data?.familyId !== familyId && data.dad !== dad)
+      setValueMember({ familyId: data?.familyId, dad: data?.dad });
   };
 
   useEffect(() => {

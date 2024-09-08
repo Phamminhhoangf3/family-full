@@ -1,14 +1,14 @@
-import { DetailFamilyType } from "@/types/family";
 import axios from "axios";
+import { DetailFamilyType } from "@/types/family";
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_URL + "/api/",
+  baseURL: process.env.NEXT_PUBLIC_URL + "/v1/",
   headers: {
     "Content-type": "application/json",
   },
 });
 
 export const getDetailFamily = async (params: DetailFamilyType) => {
-  const response = await api.get(`families/detail/${params?.id}`);
+  const response = await api.get(`web/family/view/${params?.id}`);
   return response.data;
 };
