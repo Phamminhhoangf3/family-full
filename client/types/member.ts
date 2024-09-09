@@ -33,4 +33,9 @@ export interface FamilyDto {
   children: ChildrenDto[] | [];
 }
 
+export interface RequestDto {
+  familyId: string;
+  dadId: string;
+}
+
 export type TypeMember = "husband" | "wife" | "exWife" | "children";

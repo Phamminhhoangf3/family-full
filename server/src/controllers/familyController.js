@@ -74,9 +74,43 @@ exports.getDetail = async (req, res, next) => {
         dataMap.husband = Member.convertToHusband(dataMap.husband[0])
         dataMap.wife = Member.convertToWife(dataMap.wife[0])
         dataMap.exWife = Member.convertToExWife(dataMap.exWife[0])
-        dataMap.children = Member.convertToChild(dataMap.children)
+        dataMap.children = Member.convertToChild(
+          dataMap.children.map(child => ({ ...child, dadId: dataMap.husband?._id }))
+        )
         res.status(StatusCodes.OK).json(dataMap)
       }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.getList = async (req, res, next) => {
+  try {
+    const listId = req.body?.ids
+    if (!listId) {
+      res.status(400).send({
+        message: 'Content can not be empty!'
+      })
+    }
+    Family.findListByIds(listId, (error, data) => {
+      if (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          message: error.message || 'Some error occurred while get list family!'
+        })
+      }
+      let result = [...data]
+      if (data?.length) {
+        result.forEach(family => {
+          family.husband = Member.convertToHusband(family.husband[0])
+          family.wife = Member.convertToWife(family.wife[0])
+          family.exWife = Member.convertToExWife(family.exWife[0])
+          family.children = Member.convertToChild(
+            family.children.map(child => ({ ...child, dadId: family.husband?._id }))
+          )
+        })
+      }
+      res.status(StatusCodes.OK).json(result)
     })
   } catch (error) {
     next(error)

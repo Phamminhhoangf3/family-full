@@ -11,6 +11,7 @@ module.exports = app => {
   })
   Router.post('/create', familyValidation.createNew, familyController.createNew)
   Router.get('/detail/:id', familyController.getDetail)
+  Router.post('/getList', familyController.getList)
 
   app.use('/api/families', Router)
 }

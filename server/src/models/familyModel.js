@@ -89,4 +89,66 @@ Family.findOneById = async (id, result) => {
   }
 }
 
+Family.findListByIds = async (ids, result) => {
+  try {
+    const listFamily = await GET_DB()
+      .collection(FAMILY_COLLECTION_NAME)
+      .aggregate([
+        { $match: { _id: { $in: ids.map(id => new ObjectId(id)) } } },
+        { $addFields: { __order: { $indexOfArray: [ids.map(id => new ObjectId(id)), '$_id'] } } }, // thêm field __order bằng index của ids
+        { $sort: { __order: 1 } }, // sắp xếp theo __order đã tạo ở trên
+        {
+          $lookup: {
+            from: MEMBER_COLLECTION_NAME,
+            localField: 'husbandId',
+            foreignField: '_id',
+            as: 'husband',
+            pipeline: [{ $project: { _destroy: 0 } }]
+          }
+        },
+        {
+          $lookup: {
+            from: MEMBER_COLLECTION_NAME,
+            localField: 'wifeId',
+            foreignField: '_id',
+            as: 'wife',
+            pipeline: [{ $project: { _destroy: 0 } }]
+          }
+        },
+        {
+          $lookup: {
+            from: MEMBER_COLLECTION_NAME,
+            localField: 'exWifeId',
+            foreignField: '_id',
+            as: 'exWife',
+            pipeline: [{ $project: { _destroy: 0 } }]
+          }
+        },
+        {
+          $lookup: {
+            from: MEMBER_COLLECTION_NAME,
+            localField: 'childrenIds',
+            foreignField: '_id',
+            as: 'children',
+            pipeline: [{ $project: { _destroy: 0 } }]
+          }
+        },
+        {
+          $project: {
+            _destroy: 0,
+            husbandId: 0,
+            wifeId: 0,
+            exWifeId: 0,
+            childrenIds: 0,
+            __order: 0
+          }
+        }
+      ])
+      .toArray()
+    result(null, listFamily || [])
+  } catch (error) {
+    result(error, null)
+  }
+}
+
 module.exports = Family
